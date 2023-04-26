@@ -172,6 +172,6 @@ resource "kubernetes_service" "hello-go-srv-tf" {
   }
 }
 
-output "lb_ip4" {
+output "lb_ip3" {
   value = kubernetes_service.hello-go-srv-tf.status.0.load_balancer.0.ingress.0.ip
 }

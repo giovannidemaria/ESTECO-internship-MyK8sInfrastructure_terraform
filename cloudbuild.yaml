@@ -1,21 +1,23 @@
 steps:
-  - id: 'tf init'
-    name: 'hashicorp/terraform:1.0.0'
+  # Clona la repository contenente il codice di Terraform
+  - name: 'gcr.io/cloud-builders/git'
+    id: 'Clone the repository'
+    args: ['clone', 'https://github.com/giovannidemaria/MyK8sInfrastructure_terraform.git', '.']
+  # Inizializza il progetto Terraform
+  - name: 'hashicorp/terraform:1.0.0'
+    id: 'Initialize the Terraform project'
     entrypoint: sh
-    args: ["-c","terraform -chdir=code init -upgrade "]
-  - id: 'tf plan'
-    name: 'hashicorp/terraform:1.0.0'
+    args: ['-c', 'terraform init ./code']
+    dir: '.'
+  # Genera il piano di esecuzione per la creazione o la modifica delle risorse di infrastruttura
+  - name: 'hashicorp/terraform:1.0.0'
+    id: 'Generate the Terraform plan'
     entrypoint: sh
-    args: ["-c","terraform -chdir=code plan  -out=plan.out"]    
-  - id: 'tf apply'
-    name: 'hashicorp/terraform:1.0.0'
+    args: ['-c', 'terraform plan -out=tfplan ./code']
+    dir: '.'
+  # Applica il piano di esecuzione generato nel passaggio precedente
+  - name: 'hashicorp/terraform:1.0.0'
+    id: 'Apply the Terraform plan'
     entrypoint: sh
-    args: ["-c","terraform -chdir=code apply plan.out"]    
-  - id: 'tf destroy'
-    name: 'hashicorp/terraform:1.0.0'
-    entrypoint: sh
-    args: ["-c","terraform -chdir=code plan -destroy -out=plan.out"]    
-  #- id: 'tf destroy plan'
-  #  name: 'hashicorp/terraform:1.0.0'
-  #  entrypoint: sh
-  #  args: ["-c","terraform -chdir=GCP/create-ha-vpn-comm apply plan.out"]    
+    args: ['-c', 'terraform apply tfplan ./code']
+    dir: '.'

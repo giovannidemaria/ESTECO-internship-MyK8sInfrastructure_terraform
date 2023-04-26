@@ -8,14 +8,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = ">= 2.0.1"
     }
-  }
-}
-
-data "terraform_remote_state" "gke" {
-  backend = "local"
-
-  config = {
-    path = "../learn-terraform-provision-gke-cluster/terraform.tfstate"
+    backend "gcs" {
+    bucket  = "app-internships-my-apps-tfstate"
+    prefix  = "state"
+  } 
   }
 }
 
@@ -172,6 +168,6 @@ resource "kubernetes_service" "hello-go-srv-tf" {
   }
 }
 
-output "lb_ip4" {
+output "lb_ip3" {
   value = kubernetes_service.hello-go-srv-tf.status.0.load_balancer.0.ingress.0.ip
 }

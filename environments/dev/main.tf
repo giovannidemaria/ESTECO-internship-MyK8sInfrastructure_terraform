@@ -15,13 +15,14 @@ terraform {
   }
 }
 
-# data "terraform_remote_state" "gke" {
-#  backend = "local"
+ data "terraform_remote_state" "gke" {
+  backend = "gcs"
 
-#  config = {
-#    path = "../terraform.tfstate"
-#  }
-#}
+  config = {
+    bucket = "app-internships-my-apps-tfstate"
+    prefix = "env/dev"
+      }
+}
 
 # Retrieve GKE cluster information
 provider "google" {

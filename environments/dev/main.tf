@@ -15,13 +15,13 @@ terraform {
   }
 }
 
-data "terraform_remote_state" "gke" {
-  backend = "local"
+# data "terraform_remote_state" "gke" {
+#  backend = "local"
 
-  config = {
-    path = "../terraform.tfstate"
-  }
-}
+#  config = {
+#    path = "../terraform.tfstate"
+#  }
+#}
 
 # Retrieve GKE cluster information
 provider "google" {

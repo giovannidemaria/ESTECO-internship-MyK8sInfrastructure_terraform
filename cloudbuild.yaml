@@ -1,9 +1,7 @@
 steps:
-
 - name: 'gcr.io/cloud-builders/git'
-    id: 'Clone the repository'
-    args: ['clone', 'https://github.com/giovannidemaria/MyK8sInfrastructure_terraform.git',  './myrepo']
-
+  id: 'Clone the repository'
+  args: ['clone', 'https://github.com/giovannidemaria/MyK8sInfrastructure_terraform.git',  './myrepo']
 - id: 'files'
   entrypoint: 'sh'  
   args: 
@@ -12,7 +10,6 @@ steps:
       echo "***********************"
       ls
       echo "***********************"
-
 - id: 'tf init'
   name: 'hashicorp/terraform:1.0.0'
   entrypoint: 'sh'
@@ -42,4 +39,4 @@ steps:
   - | 
       cd ./myrepo/code
       terraform apply tfplan
-# [END tf-apply]      
+# [END tf-apply]

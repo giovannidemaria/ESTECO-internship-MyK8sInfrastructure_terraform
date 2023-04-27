@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "PROJECT_ID-tfstate"
+    bucket = "app-internships-my-apps-tfstate"
     prefix = "env/dev"
   }
 }

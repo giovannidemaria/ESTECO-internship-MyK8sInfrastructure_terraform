@@ -15,19 +15,19 @@ terraform {
   }
 }
 
- data "terraform_remote_state" "gke" {
-  backend = "gcs"
+# data "terraform_remote_state" "gke" {
+#  backend = "gcs"
 
-  config = {
-    bucket = "app-internships-my-apps-tfstate"
-    prefix = "env/dev"
-      }
-}
+#  config = {
+#    bucket = "app-internships-my-apps-tfstate"
+#    prefix = "env/dev"
+#      }
+#}
 
 # Retrieve GKE cluster information
 provider "google" {
-  project = data.terraform_remote_state.gke.outputs.project_id
-  region  = data.terraform_remote_state.gke.outputs.region
+  project = "app-internships"
+  region  = "us-central1"
 }
 
 # Configure kubernetes provider with Oauth2 access token.
@@ -36,12 +36,12 @@ provider "google" {
 data "google_client_config" "default" {}
 
 data "google_container_cluster" "my_cluster" {
-  name     = data.terraform_remote_state.gke.outputs.kubernetes_cluster_name
-  location = data.terraform_remote_state.gke.outputs.region
+  name     = "app-internships-gke"
+  location = "us-central1"
 }
 
 provider "kubernetes" {
-  host = data.terraform_remote_state.gke.outputs.kubernetes_cluster_host
+  host = "34.27.127.39"
 
   token                  = data.google_client_config.default.access_token
   cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)

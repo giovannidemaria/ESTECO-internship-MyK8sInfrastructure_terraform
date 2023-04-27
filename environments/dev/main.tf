@@ -9,6 +9,10 @@ terraform {
       version = ">= 2.0.1"
     }
   }
+  backend "gcs" {
+    bucket = "app-internships-my-apps-tfstate"
+    prefix = "env/dev"
+  }
 }
 
 data "terraform_remote_state" "gke" {

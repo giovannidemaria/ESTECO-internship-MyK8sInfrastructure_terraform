@@ -1,24 +1,45 @@
 steps:
-  # Clona la repository contenente il codice di Terraform
-  - name: 'gcr.io/cloud-builders/git'
+
+- name: 'gcr.io/cloud-builders/git'
     id: 'Clone the repository'
     args: ['clone', 'https://github.com/giovannidemaria/MyK8sInfrastructure_terraform.git',  './myrepo']
-  - name: 'gcr.io/cloud-builders/bash'
-    id: 'Change current directory'
-    entrypoint: 'bash'
-    args: ['-c', 'cd ./myrepo/code']
-  # Inizializza il progetto Terraform
-  - name: 'hashicorp/terraform:1.0.0'
-    id: 'Initialize the Terraform project'
-    entrypoint: sh
-    args: ['-c', 'terraform init']
-  # Genera il piano di esecuzione per la creazione o la modifica delle risorse di infrastruttura
-  - name: 'hashicorp/terraform:1.0.0'
-    id: 'Generate the Terraform plan'
-    entrypoint: sh
-    args: ['-c', 'terraform plan -out=tfplan']
-  # Applica il piano di esecuzione generato nel passaggio precedente
-  - name: 'hashicorp/terraform:1.0.0'
-    id: 'Apply the Terraform plan'
-    entrypoint: sh
-    args: ['-c', 'terraform apply tfplan']
+
+- id: 'files'
+  entrypoint: 'sh'  
+  args: 
+  - '-c'
+  - | 
+      echo "***********************"
+      ls
+      echo "***********************"
+
+- id: 'tf init'
+  name: 'hashicorp/terraform:1.0.0'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - |
+        cd ./myrepo/code
+        terraform init
+
+# [START tf-plan]
+- id: 'tf plan'
+  name: 'hashicorp/terraform:1.0.0'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - | 
+      cd ./myrepo/code
+      terraform plan -out=tfplan
+# [END tf-plan]
+
+# [START tf-apply]
+- id: 'tf apply'
+  name: 'hashicorp/terraform:1.0.0'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - | 
+      cd ./myrepo/code
+      terraform apply tfplan
+# [END tf-apply]      

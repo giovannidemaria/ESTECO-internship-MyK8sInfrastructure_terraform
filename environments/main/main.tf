@@ -180,3 +180,70 @@ resource "kubernetes_service" "hello-go-srv-tf" {
 output "lb_ip3" {
   value = kubernetes_service.hello-go-srv-tf.status.0.load_balancer.0.ingress.0.ip
 }
+
+resource "kubernetes_deployment" "upper-py-srv-tf" {
+    metadata {
+      name = "upper-py-srv-tf"
+      labels = {
+        App = "UpperPySrvTf"
+      }
+    }
+  
+    spec {
+      replicas = 2
+      selector {
+        match_labels = {
+          App = "UpperPySrvTf"
+        }
+      }
+      template {
+        metadata {
+          labels = {
+            App = "UpperPySrvTf"
+          }
+        }
+        spec {
+          container {
+            image = "giovannidemaria/upper-py-srv:v1.0"
+            name  = "upper-py-srv-tf"
+  
+            port {
+              container_port = 80
+            }
+  
+            resources {
+              limits = {
+                cpu    = "0.5"
+                memory = "512Mi"
+              }
+              requests = {
+                cpu    = "250m"
+                memory = "50Mi"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  resource "kubernetes_service" "upper-py-srv-tf" {
+    metadata {
+      name = "upper-py-srv-tf"
+    }
+    spec {
+      selector = {
+        App = kubernetes_deployment.upper-py-srv-tf.spec.0.template.0.metadata[0].labels.App
+      }
+      port {
+        port        = 80
+        target_port = 8080
+      }
+  
+      type = "LoadBalancer"
+    }
+  }
+  
+  output "lb_ip4" {
+    value = kubernetes_service.upper-py-srv-tf.status.0.load_balancer.0.ingress.0.ip
+  }

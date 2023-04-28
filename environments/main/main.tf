@@ -56,7 +56,7 @@ resource "kubernetes_deployment" "hello-py-srv-tf" {
     }
   
     spec {
-      replicas = 0
+      replicas = 2
       selector {
         match_labels = {
           App = "helloPySrvTf"
@@ -123,7 +123,7 @@ resource "kubernetes_deployment" "hello-py-srv-tf" {
   }
 
   spec {
-    replicas = 0
+    replicas = 2
     selector {
       match_labels = {
         App = "hello-go-srv-tf"
@@ -190,7 +190,7 @@ resource "kubernetes_deployment" "upper-py-srv-tf" {
     }
   
     spec {
-      replicas = 0
+      replicas = 2
       selector {
         match_labels = {
           App = "UpperPySrvTf"
@@ -257,7 +257,7 @@ resource "kubernetes_deployment" "upper-py-frontend-tf" {
     }
   
     spec {
-      replicas = 0
+      replicas = 2
       selector {
         match_labels = {
           App = "UpperPyFrontendTf"

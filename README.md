@@ -1,4 +1,4 @@
-# Simple Kubernetes infrastructure using terraform and Cloud Build
+# Simple Kubernetes infrastructure using Terraform and Cloud Build
 
 The project is based on some tutorials using the Infrastructure as code process.
 In particular:

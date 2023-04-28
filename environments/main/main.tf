@@ -311,6 +311,6 @@ resource "kubernetes_deployment" "upper-py-frontend-tf" {
     }
   }
   
-  output "frontend_id" {
+  output "frontend_ip" {
     value = kubernetes_service.upper-py-frontend-tf.status.0.load_balancer.0.ingress.0.ip
   }

@@ -247,3 +247,70 @@ resource "kubernetes_deployment" "upper-py-srv-tf" {
   output "lb_ip4" {
     value = kubernetes_service.upper-py-srv-tf.status.0.load_balancer.0.ingress.0.ip
   }
+
+resource "kubernetes_deployment" "upper-py-frontend-tf" {
+    metadata {
+      name = "upper-py-frontend-tf"
+      labels = {
+        App = "UpperPyFrontendTf"
+      }
+    }
+  
+    spec {
+      replicas = 2
+      selector {
+        match_labels = {
+          App = "UpperPyFrontendTf"
+        }
+      }
+      template {
+        metadata {
+          labels = {
+            App = "UpperPyFrontendTf"
+          }
+        }
+        spec {
+          container {
+            image = "giovannidemaria/upper-py-frontend:latest"
+            name  = "upper-py-frontend-tf"
+  
+            port {
+              container_port = 80
+            }
+  
+            resources {
+              limits = {
+                cpu    = "0.5"
+                memory = "512Mi"
+              }
+              requests = {
+                cpu    = "250m"
+                memory = "50Mi"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  resource "kubernetes_service" "upper-py-frontend-tf" {
+    metadata {
+      name = "upper-py-frontend-tf"
+    }
+    spec {
+      selector = {
+        App = kubernetes_deployment.upper-py-frontend-tf.spec.0.template.0.metadata[0].labels.App
+      }
+      port {
+        port        = 80
+        target_port = 8080
+      }
+  
+      type = "LoadBalancer"
+    }
+  }
+  
+  output "frontend_id" {
+    value = kubernetes_service.upper-py-frontend-tf.status.0.load_balancer.0.ingress.0.ip
+  }

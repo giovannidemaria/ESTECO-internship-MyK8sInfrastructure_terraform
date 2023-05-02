@@ -333,21 +333,27 @@ resource "kubernetes_persistent_volume" "demo-k8s-persistent-volume" {
     capacity {
       storage = "10Gi"
     }
+    persistent_volume_source {
       gce_persistent_disk {
         pd_name  = "demo-k8s-persistent-volume"
         fs_type  = "ext4"
       }
+    }
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "volume-test-py" {
+resource "kubernetes_persistent_volume_claim" "demo-k8s-persistent-volume" {
   metadata {
     name = "demo-k8s-persistent-volume"
   }
   spec {
     access_modes = ["ReadWriteOnce"]
     resources {
-      limits = "10Gi"
+      requests = {
+        storage = "5Gi"
+      }
     }
+    volume_name = "demo-k8s-persistent-volume"
+  }
   }
 }

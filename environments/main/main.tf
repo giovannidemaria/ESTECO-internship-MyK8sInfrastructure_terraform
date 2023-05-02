@@ -331,7 +331,7 @@ resource "kubernetes_persistent_volume" "demo-k8s-persistent-volume" {
   spec {
     access_modes = ["ReadWriteOnce"]
     capacity = {
-      storage = "10Gi"
+      storage = "10Gi"  
     }
     persistent_volume_source {
       gce_persistent_disk {
@@ -343,19 +343,18 @@ resource "kubernetes_persistent_volume" "demo-k8s-persistent-volume" {
 }
 
 
-resource "kubernetes_persistent_volume_claim" "demo-k8s-persistent-volume-claim" {
+resource "kubernetes_persistent_volume_claim" "demo-k8s-persistent-volume" {
   metadata {
     name = "demo-k8s-persistent-volume"
   }
   spec {
     access_modes = ["ReadWriteOnce"]
     volume_name = "demo-k8s-persistent-volume"
-   resources {
-     limits = {
-      cpu    = "1"
-      memory = "512Mi"
-     }
-   }
+    resources {
+      requests = {
+        storage = "5Gi"
+      }
+    }
   }
 }
 

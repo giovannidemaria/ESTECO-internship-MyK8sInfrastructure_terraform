@@ -314,3 +314,10 @@ resource "kubernetes_deployment" "upper-py-frontend-tf" {
   output "uppercase_frontend_ip" {
     value = kubernetes_service.upper-py-frontend-tf.status.0.load_balancer.0.ingress.0.ip
   }
+
+resource "google_compute_disk" "default" {
+  name = "demo-k8s-persistent-volume"
+  type = "pd-standard"
+  zone = "us-west1-a"
+  size = "10"
+}

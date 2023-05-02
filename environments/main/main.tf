@@ -374,24 +374,24 @@ resource "kubernetes_deployment" "volume-test-py" {
         }
       }
       spec {
-        containers {
+        containers = [{
           name  = "volume-test-py"
          
          image = "giovannidemaria/volume-test-py:latest"
-         ports {
+         ports = [{
            container_port = 8080
-         }
-         volume_mounts {
+         }]
+         volume_mounts = [{
            name       = "demo-k8s-persistent-volume"
            mount_path = "/mnt/mydisk"
-         }
-       }
-       volumes {
+         }]
+       }]
+       volumes = [{
          name = "demo-k8s-persistent-volume"
          persistent_volume_claim {
            claim_name = "demo-k8s-persistent-volume-claim"
          }
-       }
+       }]
      }
    }
  }

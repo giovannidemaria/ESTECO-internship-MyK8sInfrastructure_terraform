@@ -321,3 +321,98 @@ resource "google_compute_disk" "default" {
   zone = "us-central1-a"
   size = "10"
 }
+
+
+
+resource "kubernetes_persistent_volume" "demo-k8s-persistent-volume" {
+  metadata {
+    name = "demo-k8s-persistent-volume"
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    capacity {
+      storage = "10Gi"
+    }
+    persistent_volume_source {
+      gce_persistent_disk {
+        pd_name  = google_compute_disk.demo-k8s-persistent-volume.name
+        fs_type  = "ext4"
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "mydisk" {
+  metadata {
+    name = "demo-k8s-persistent-volume"
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests {
+        storage = "10Gi"
+      }
+    }
+  }
+}
+
+resource "kubernetes_deployment" "volume-test-py" {
+  metadata {
+    name = "volume-test-py"
+  }
+  spec {
+    selector {
+      match_labels = {
+        app = "volume-test-py"
+      }
+    }
+    replicas = 1
+    template {
+      metadata {
+        labels = {
+          app = "volume-test-py"
+        }
+      }
+      spec {
+        containers {
+          name  = "volume-test-py"
+         
+         image = "giovannidemaria/volume-test-py:latest"
+         ports {
+           container_port = 8080
+         }
+         volume_mounts {
+           name       = "demo-k8s-persistent-volume"
+           mount_path = "/mnt/mydisk"
+         }
+       }
+       volumes {
+         name = "demo-k8s-persistent-volume"
+         persistent_volume_claim {
+           claim_name = kubernetes_persistent_volume_claim.demo-k8s-persistent-volume.metadata[0].name
+         }
+       }
+     }
+   }
+ }
+  
+   resource "kubernetes_service" "volume-test-py" {
+    metadata {
+      name = "volume-test-py"
+    }
+    spec {
+      selector = {
+        App = kubernetes_deployment.volume-test-py.spec.0.template.0.metadata[0].labels.App
+      }
+      port {
+        port        = 80
+        target_port = 8080
+      }
+  
+      type = "LoadBalancer"
+    }
+  }
+  
+  output "volume-test-py_ip" {
+    value = kubernetes_service.volume-test-py.status.0.load_balancer.0.ingress.0.ip
+  }

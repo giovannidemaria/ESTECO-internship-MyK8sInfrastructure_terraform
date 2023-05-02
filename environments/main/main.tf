@@ -342,7 +342,7 @@ resource "kubernetes_persistent_volume" "demo-k8s-persistent-volume" {
   }
 }
 
-resource "kubernetes_persistent_volume_claim" "mydisk" {
+resource "kubernetes_persistent_volume_claim" "volume-test-py" {
   metadata {
     name = "demo-k8s-persistent-volume"
   }

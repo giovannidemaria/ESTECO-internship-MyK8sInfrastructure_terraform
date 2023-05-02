@@ -355,5 +355,4 @@ resource "kubernetes_persistent_volume_claim" "demo-k8s-persistent-volume" {
     }
     volume_name = "demo-k8s-persistent-volume"
   }
-  }
 }

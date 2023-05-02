@@ -330,7 +330,7 @@ resource "kubernetes_persistent_volume" "demo-k8s-persistent-volume" {
   }
   spec {
     access_modes = ["ReadWriteOnce"]
-    capacity {
+    capacity = {
       storage = "10Gi"
     }
     persistent_volume_source {

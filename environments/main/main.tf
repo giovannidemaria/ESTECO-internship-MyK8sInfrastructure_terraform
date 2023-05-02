@@ -318,6 +318,6 @@ resource "kubernetes_deployment" "upper-py-frontend-tf" {
 resource "google_compute_disk" "default" {
   name = "demo-k8s-persistent-volume"
   type = "pd-standard"
-  zone = "us-west1-a"
+  zone = "us-central1-a"
   size = "10"
 }

@@ -388,7 +388,7 @@ resource "kubernetes_deployment" "volume-test-py" {
        }]
        volumes = [{
          name = "demo-k8s-persistent-volume"
-         persistent_volume_claim {
+         persistent_volume_claim = {
            claim_name = "demo-k8s-persistent-volume-claim"
          }
        }]

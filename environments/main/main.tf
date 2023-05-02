@@ -351,7 +351,10 @@ resource "kubernetes_persistent_volume_claim" "demo-k8s-persistent-volume-claim"
     access_modes = ["ReadWriteOnce"]
     volume_name = "demo-k8s-persistent-volume"
    resources {
-     limits = "10Gi" 
+     limits = {
+      cpu    = "1"
+      memory = "512Mi"
+     }
    }
   }
 }

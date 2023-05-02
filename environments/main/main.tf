@@ -399,3 +399,23 @@ resource "kubernetes_deployment" "volume-test-py" {
    }
  }
 }
+   resource "kubernetes_service" "volume-test-py" {
+    metadata {
+      name = "volume-test-py"
+    }
+    spec {
+      selector = {
+        App = kubernetes_deployment.volume-test-py.spec.0.template.0.metadata[0].labels.App
+      }
+      port {
+        port        = 80
+        target_port = 8080
+      }
+  
+      type = "LoadBalancer"
+    }
+  }
+  
+  output "volume-test-py_ip" {
+    value = kubernetes_service.volume-test-py.status.0.load_balancer.0.ingress.0.ip
+  }

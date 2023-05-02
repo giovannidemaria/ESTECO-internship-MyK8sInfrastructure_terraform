@@ -335,7 +335,7 @@ resource "kubernetes_persistent_volume" "demo-k8s-persistent-volume" {
     }
     persistent_volume_source {
       gce_persistent_disk {
-        pd_name  = google_compute_disk.demo-k8s-persistent-volume.name
+        pd_name  = "demo-k8s-persistent-volume"
         fs_type  = "ext4"
       }
     }

@@ -321,3 +321,38 @@ resource "google_compute_disk" "default" {
   zone = "us-central1-a"
   size = "10"
 }
+
+
+
+resource "kubernetes_persistent_volume" "demo-k8s-persistent-volume" {
+  metadata {
+    name = "demo-k8s-persistent-volume"
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    capacity = {
+      storage = "10Gi"
+    }
+    persistent_volume_source {
+      gce_persistent_disk {
+        pd_name  = "demo-k8s-persistent-volume"
+        fs_type  = "ext4"
+      }
+    }
+  }
+}
+
+resource "kubernetes_persistent_volume_claim" "demo-k8s-persistent-volume" {
+  metadata {
+    name = "demo-k8s-persistent-volume"
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "5Gi"
+      }
+    }
+    volume_name = "demo-k8s-persistent-volume"
+  }
+}

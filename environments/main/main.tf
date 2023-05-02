@@ -341,18 +341,3 @@ resource "kubernetes_persistent_volume" "demo-k8s-persistent-volume" {
     }
   }
 }
-
-resource "kubernetes_persistent_volume_claim" "demo-k8s-persistent-volume" {
-  metadata {
-    name = "demo-k8s-persistent-volume"
-  }
-  spec {
-    access_modes = ["ReadWriteOnce"]
-    resources {
-      requests = {
-        storage = "5Gi"
-      }
-    }
-    volume_name = "demo-k8s-persistent-volume"
-  }
-}

@@ -110,7 +110,7 @@ resource "kubernetes_deployment" "hello-py-srv-tf" {
     }
   }
   
-  output "lb_ip2" {
+  output "hello_world_python_ip" {
     value = kubernetes_service.hello-py-srv-tf.status.0.load_balancer.0.ingress.0.ip
   }
 
@@ -177,7 +177,7 @@ resource "kubernetes_service" "hello-go-srv-tf" {
   }
 }
 
-output "lb_ip3" {
+output "hello_world_golang_ip" {
   value = kubernetes_service.hello-go-srv-tf.status.0.load_balancer.0.ingress.0.ip
 }
 
@@ -311,6 +311,6 @@ resource "kubernetes_deployment" "upper-py-frontend-tf" {
     }
   }
   
-  output "frontend_ip" {
+  output "uppercase_frontend_ip" {
     value = kubernetes_service.upper-py-frontend-tf.status.0.load_balancer.0.ingress.0.ip
   }

@@ -349,7 +349,7 @@ resource "kubernetes_persistent_volume_claim" "volume-test-py" {
   spec {
     access_modes = ["ReadWriteOnce"]
     resources {
-      requests {
+      requests = {
         storage = "10Gi"
       }
     }

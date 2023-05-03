@@ -204,7 +204,7 @@ resource "kubernetes_deployment" "upper-py-srv-tf" {
         }
         spec {
           container {
-            image = "giovannidemaria/to_upper_case-py-srv:v3.0"
+            image = "giovannidemaria/upper-py-srv:v1.0"
             name  = "upper-py-srv-tf"
   
             port {

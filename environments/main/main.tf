@@ -240,12 +240,12 @@ resource "kubernetes_deployment" "upper-py-srv-tf" {
         target_port = 8080
       }
   
-      type = "LoadBalancer"
+      type = "ClusterIP"
     }
   }
   
-  output "lb_ip4" {
-    value = kubernetes_service.upper-py-srv-tf.status.0.load_balancer.0.ingress.0.ip
+  output "upper-py-srv_ip" {
+    value = kubernetes_service.upper-py-srv-tf.spec[0].cluster_ip
   }
 
 resource "kubernetes_deployment" "upper-py-frontend-tf" {
@@ -311,6 +311,6 @@ resource "kubernetes_deployment" "upper-py-frontend-tf" {
     }
   }
   
-  output "uppercase_frontend_ip" {
+  output "upper-py-frontend_ip" {
     value = kubernetes_service.upper-py-frontend-tf.status.0.load_balancer.0.ingress.0.ip
   }

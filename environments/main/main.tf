@@ -271,7 +271,7 @@ resource "kubernetes_deployment" "upper-py-frontend-tf" {
         }
         spec {
           container {
-            image = "giovannidemaria/upper-py-frontend:v1.0"
+            image = "giovannidemaria/upper-py-frontend:v4.0"
             name  = "upper-py-frontend-tf"
   
             port {

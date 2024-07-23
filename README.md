@@ -8,4 +8,4 @@ In particular the following resources have been used:
 
 The infrastructure that this terrform code aims to describe is summarized in the following schema:
 
-![k8s schema](https://github.com/giovannidemaria/Esteco-K8sInfrastructure-terraform/blob/main/k8s_schema.jpg?raw=true)
+![k8s schema](https://github.com/giovannidemaria/Esteco-K8sInfrastructure-terraform/blob/main/k8s_schema.png?raw=true)

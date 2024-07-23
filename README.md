@@ -6,6 +6,6 @@ In particular the following resources have been used:
 * [Provision a GKE Cluster (Google Cloud)](https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke)
 * [Manage Kubernetes Resources via Terraform](https://developer.hashicorp.com/terraform/tutorials/kubernetes/kubernetes-provider)
 
-The infrastructure that this terrform code aims to describe is summarized in the following schema:
+The infrastructure that this terraform code aims to describe is summarized in the following schema:
 
 ![k8s schema](https://github.com/giovannidemaria/Esteco-K8sInfrastructure-terraform/blob/main/k8s_schema.png?raw=true)
